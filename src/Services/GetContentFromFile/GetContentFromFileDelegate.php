@@ -8,5 +8,5 @@ interface GetContentFromFileDelegate
 {
     public function unableToParseFile() : void;
 
-    public function contentRetrievedSuccessfully(Content $content) : void;
+    public function contentRetrieved(Content $content) : void;
 }

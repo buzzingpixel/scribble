@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  php:
+    image: buzzingpixel/php7.2:1.0.6
+    container_name: php-scribble
+    environment:
+      HOSTNAME: php-scribble
+      COMPOSER_HOME: /composer-home-volume
+    volumes:
+      - ./serverConfig/php/php-custom-config.ini:/usr/local/etc/php/conf.d/php-custom-config.ini:delegated
+      - ./serverConfig/php/php-config-dev.ini:/usr/local/etc/php/conf.d/php-env-config.ini:delegated
+      - ./serverConfig/php/fpm-www.conf:/usr/local/etc/php-fpm.d/www.conf:delegated
+      - .:/app:delegated
+      - composer-home-volume:/composer-home-volume:delegated
+    networks:
+      common-scribble-network:
+
+volumes:
+  composer-home-volume:
+  vendor-volume:
+
+networks:
+  common-scribble-network:

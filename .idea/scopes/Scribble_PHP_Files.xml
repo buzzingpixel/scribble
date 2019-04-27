@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Scribble PHP Files" pattern="file[scribble]:config//*||file[scribble]:src//*||file[scribble]:tests//*" />
+</component>

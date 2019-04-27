@@ -54,6 +54,7 @@ VarDumper::setHandler(static function ($var) use ($cloner, $dumper, $varStore) :
 });
 
 define('SCRIBBLE_DEV', true);
+define('APP_DIR', __DIR__);
 
 /** @noinspection PhpUnhandledExceptionInspection */
 Di::diContainer()->get(Kernel::class)($argv);

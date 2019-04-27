@@ -5,9 +5,11 @@
     "license": "Apache-2.0",
     "require": {
         "php": ">=7.2",
+        "adbario/php-dot-notation": "^2.2",
         "buzzingpixel/corbomite-di": "^1.2",
         "cebe/markdown": "^1.2",
-        "symfony/filesystem": "^4.2"
+        "hyn/frontmatter": "dev-master",
+        "symfony/finder": "^4.2"
     },
     "require-dev": {
         "buzzingpixel/corbomite-cli": "^1.0",

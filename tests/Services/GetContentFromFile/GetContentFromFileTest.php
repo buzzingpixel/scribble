@@ -9,6 +9,7 @@ use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFile;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFileDelegate;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\SplFileInfo;
 use corbomite\di\Di;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
@@ -129,5 +130,24 @@ class GetContentFromFileTest extends TestCase
         );
 
         self::assertNull($content->getMetaItem('foo.bar.asdf'));
+
+        $exception = null;
+
+        try {
+            $content->__construct(
+                'test',
+                'thing',
+                []
+            );
+        } catch (LogicException $e) {
+            $exception = $e;
+        }
+
+        self::assertInstanceOf(LogicException::class, $exception);
+
+        self::assertEquals(
+            'Instance may only be instantiated once',
+            $exception->getMessage()
+        );
     }
 }

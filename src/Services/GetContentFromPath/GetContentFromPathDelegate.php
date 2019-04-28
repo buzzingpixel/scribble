@@ -10,5 +10,5 @@ interface GetContentFromPathDelegate
 
     public function noResults() : void;
 
-    public function contentRetrieved(ContentPathCollection $collection) : void;
+    public function contentRetrieved(ContentCollection $collection) : void;
 }

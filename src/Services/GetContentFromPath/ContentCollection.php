@@ -12,7 +12,7 @@ use LogicException;
 use function array_reverse;
 use function array_slice;
 
-class ContentPathCollection implements Countable, Iterator
+class ContentCollection implements Countable, Iterator
 {
     /** @var bool */
     private $isInstantiated = false;
@@ -51,7 +51,7 @@ class ContentPathCollection implements Countable, Iterator
         }
     }
 
-    public function subSet(int $limit, int $start = 0) : ContentPathCollection
+    public function subSet(int $limit, int $start = 0) : ContentCollection
     {
         $contents = array_slice(
             $this->contents,
@@ -59,7 +59,7 @@ class ContentPathCollection implements Countable, Iterator
             $limit
         );
 
-        return new ContentPathCollection($contents);
+        return new ContentCollection($contents);
     }
 
     public function count() : int

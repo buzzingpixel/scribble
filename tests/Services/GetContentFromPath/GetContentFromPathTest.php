@@ -8,7 +8,7 @@ use BuzzingPixel\Scribble\Factories\SymfonyFinderFactory;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\Content;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFile;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFileDelegate;
-use BuzzingPixel\Scribble\Services\GetContentFromPath\ContentPathCollection;
+use BuzzingPixel\Scribble\Services\GetContentFromPath\ContentCollection;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPath;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPathDelegate;
 use corbomite\di\Di;
@@ -32,7 +32,7 @@ class GetContentFromPathTest extends TestCase
             /** @var int */
             private $contentRetrievedCalls = 0;
 
-            /** @var ContentPathCollection|null */
+            /** @var ContentCollection|null */
             private $collection;
 
             public function unableToParsePathCalls() : int
@@ -50,7 +50,7 @@ class GetContentFromPathTest extends TestCase
                 return $this->contentRetrievedCalls;
             }
 
-            public function collection() : ?ContentPathCollection
+            public function collection() : ?ContentCollection
             {
                 return $this->collection;
             }
@@ -65,7 +65,7 @@ class GetContentFromPathTest extends TestCase
                 $this->noResultsCalls++;
             }
 
-            public function contentRetrieved(ContentPathCollection $collection) : void
+            public function contentRetrieved(ContentCollection $collection) : void
             {
                 $this->contentRetrievedCalls++;
                 $this->collection = $collection;
@@ -138,10 +138,10 @@ class GetContentFromPathTest extends TestCase
 
         self::assertEquals(1, $handler->contentRetrievedCalls());
 
-        /** @var ContentPathCollection $collection */
+        /** @var ContentCollection $collection */
         $collection = $handler->collection();
 
-        self::assertInstanceOf(ContentPathCollection::class, $collection);
+        self::assertInstanceOf(ContentCollection::class, $collection);
 
         self::assertCount(1, $collection);
 
@@ -176,10 +176,10 @@ class GetContentFromPathTest extends TestCase
 
         self::assertEquals(1, $handler->contentRetrievedCalls());
 
-        /** @var ContentPathCollection $collection */
+        /** @var ContentCollection $collection */
         $collection = $handler->collection();
 
-        self::assertInstanceOf(ContentPathCollection::class, $collection);
+        self::assertInstanceOf(ContentCollection::class, $collection);
 
         self::assertCount(3, $collection);
 
@@ -249,7 +249,7 @@ class GetContentFromPathTest extends TestCase
             ['json']
         );
 
-        /** @var ContentPathCollection $collection */
+        /** @var ContentCollection $collection */
         $collection = $handler->collection();
 
         $exception = null;
@@ -273,7 +273,7 @@ class GetContentFromPathTest extends TestCase
         $exception = null;
 
         try {
-            new ContentPathCollection(['asdf']);
+            new ContentCollection(['asdf']);
         } catch (InvalidArgumentException $e) {
             $exception = $e;
         }
@@ -301,7 +301,7 @@ class GetContentFromPathTest extends TestCase
             ['md', 'json']
         );
 
-        /** @var ContentPathCollection $collection */
+        /** @var ContentCollection $collection */
         $collection = $handler->collection();
 
         $subCollection = $collection->subSet(2);
@@ -310,9 +310,9 @@ class GetContentFromPathTest extends TestCase
 
         $last = $collection->last();
 
-        $nullFirst = (new ContentPathCollection([]))->first();
+        $nullFirst = (new ContentCollection([]))->first();
 
-        $nullLast = (new ContentPathCollection([]))->last();
+        $nullLast = (new ContentCollection([]))->last();
 
         self::assertCount(4, $collection);
 
@@ -358,7 +358,7 @@ class GetContentFromPathTest extends TestCase
             ['md', 'json']
         );
 
-        /** @var ContentPathCollection $collection */
+        /** @var ContentCollection $collection */
         $collection = $handler->collection();
 
         $collection->reverse();

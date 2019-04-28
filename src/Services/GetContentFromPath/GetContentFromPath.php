@@ -77,7 +77,7 @@ class GetContentFromPath
         }
 
         $handler->contentRetrieved(
-            new ContentPathCollection($parsedFiles)
+            new ContentCollection($parsedFiles)
         );
     }
 

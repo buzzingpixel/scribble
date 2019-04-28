@@ -8,7 +8,7 @@ use BuzzingPixel\Scribble\Services\GetContentFromFile\Content;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFile;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFileDelegate;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\SplFileInfo;
-use BuzzingPixel\Scribble\Services\GetContentFromPath\ContentPathCollection;
+use BuzzingPixel\Scribble\Services\GetContentFromPath\ContentCollection;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPath;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPathDelegate;
 use corbomite\di\Di;
@@ -46,7 +46,7 @@ class Development
                 dd(__METHOD__);
             }
 
-            public function contentRetrieved(ContentPathCollection $collection) : void
+            public function contentRetrieved(ContentCollection $collection) : void
             {
                 dd($collection, __METHOD__);
             }

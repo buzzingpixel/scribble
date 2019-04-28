@@ -342,45 +342,4 @@ class GetContentFromPathTest extends TestCase
 
         self::assertNull($nullLast);
     }
-
-    /**
-     * @throws Throwable
-     */
-    public function testReverse() : void
-    {
-        $service = Di::diContainer()->get(GetContentFromPath::class);
-
-        $handler = $this->getDelegate();
-
-        $service->get(
-            TESTS_BASE_PATH . '/Services/GetContentFromPath/ContentDirectory',
-            $handler,
-            ['md', 'json']
-        );
-
-        /** @var ContentCollection $collection */
-        $collection = $handler->collection();
-
-        $collection->reverse();
-
-        $first = $collection->first();
-
-        $last = $collection->last();
-
-        self::assertEmpty($last->markdown());
-
-        self::assertEmpty($last->html());
-
-        self::assertEquals('bar', $last->getMetaItem('foo'));
-
-        self::assertEquals(
-            "\nTest content\n",
-            $first->markdown()
-        );
-
-        self::assertEquals(
-            "<p>Test content</p>\n",
-            $first->html()
-        );
-    }
 }

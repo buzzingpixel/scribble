@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use BuzzingPixel\Scribble\Factories\SymfonyFinderFactory;
 use BuzzingPixel\Scribble\ScribbleApi;
 use BuzzingPixel\Scribble\ScribbleApiContract;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFile;
+use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPath;
 use cebe\markdown\GithubMarkdown;
 use Hyn\Frontmatter\Frontmatters\JsonFrontmatter;
 use Hyn\Frontmatter\Parser as FontMatterParser;
@@ -20,10 +22,19 @@ return [
             new FontMatterParser(new GithubMarkdown())
         );
     },
+    GetContentFromPath::class => static function (ContainerInterface $di) {
+        return new GetContentFromPath(
+            $di->get(SymfonyFinderFactory::class),
+            $di->get(GetContentFromFile::class)
+        );
+    },
     ScribbleApi::class => static function (ContainerInterface $di) {
         return new ScribbleApi($di);
     },
     ScribbleApiContract::class => static function (ContainerInterface $di) {
         return $di->get(ScribbleApi::class);
+    },
+    SymfonyFinderFactory::class => static function () {
+        return new SymfonyFinderFactory();
     },
 ];

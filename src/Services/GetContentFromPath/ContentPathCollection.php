@@ -51,7 +51,7 @@ class ContentPathCollection implements Countable, Iterator
         }
     }
 
-    public function subSet(int $start, int $limit) : ContentPathCollection
+    public function subSet(int $limit, int $start = 0) : ContentPathCollection
     {
         $contents = array_slice(
             $this->contents,
@@ -70,9 +70,19 @@ class ContentPathCollection implements Countable, Iterator
     /**
      * @return Content[]
      */
-    public function contents() : array
+    public function all() : array
     {
         return $this->contents;
+    }
+
+    public function first() : ?Content
+    {
+        return $this->contents[0] ?? null;
+    }
+
+    public function last() : ?Content
+    {
+        return $this->contents[$this->count - 1] ?? null;
     }
 
     public function current() : Content
@@ -102,7 +112,7 @@ class ContentPathCollection implements Countable, Iterator
 
     public function reverse() : void
     {
-        $this->contents = array_reverse($this->contents());
+        $this->contents = array_reverse($this->all());
         $this->rewind();
     }
 }

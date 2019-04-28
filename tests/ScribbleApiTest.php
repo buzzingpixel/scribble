@@ -8,6 +8,8 @@ use BuzzingPixel\Scribble\ScribbleApi;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFile;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFileDelegate;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\SplFileInfo;
+use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPath;
+use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPathDelegate;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use stdClass;
@@ -62,5 +64,36 @@ class ScribbleApiTest extends TestCase
         );
 
         self::assertSame($handler, $vars->incomingHandler);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testGetContentFromPath() : void
+    {
+        $handler = $this->createMock(GetContentFromPathDelegate::class);
+
+        $getContentFromPath = $this->createMock(GetContentFromPath::class);
+
+        $getContentFromPath->expects(self::once())
+            ->method('get')
+            ->with(
+                self::equalTo('testDirInput'),
+                self::equalTo($handler),
+                self::equalTo(['test', 'thing'])
+            );
+
+        $di = $this->createMock(ContainerInterface::class);
+
+        $di->expects(self::once())
+            ->method('get')
+            ->with(self::equalTo(GetContentFromPath::class))
+            ->willReturn($getContentFromPath);
+
+        /** @noinspection PhpParamsInspection */
+        $api = new ScribbleApi($di);
+
+        /** @noinspection PhpParamsInspection */
+        $api->getContentFromPath('testDirInput', $handler, ['test', 'thing']);
     }
 }

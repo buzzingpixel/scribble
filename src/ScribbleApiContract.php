@@ -6,6 +6,7 @@ namespace BuzzingPixel\Scribble;
 
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFileDelegate;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPathDelegate;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\GetContentPathCollectionDelegate;
 
 interface ScribbleApiContract
 {
@@ -25,6 +26,17 @@ interface ScribbleApiContract
     public function getContentFromPath(
         string $dir,
         GetContentFromPathDelegate $handler,
+        array $extensions = ['md']
+    ) : void;
+
+    /**
+     * Gets a path collection of content (listing)
+     *
+     * @param string[] $extensions
+     */
+    public function getContentPathCollection(
+        string $dir,
+        GetContentPathCollectionDelegate $handler,
         array $extensions = ['md']
     ) : void;
 }

@@ -10,6 +10,8 @@ use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFileDelegate
 use BuzzingPixel\Scribble\Services\GetContentFromFile\SplFileInfo;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPath;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPathDelegate;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\GetContentPathCollection;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\GetContentPathCollectionDelegate;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use stdClass;
@@ -95,5 +97,36 @@ class ScribbleApiTest extends TestCase
 
         /** @noinspection PhpParamsInspection */
         $api->getContentFromPath('testDirInput', $handler, ['test', 'thing']);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testGetContentPathCollection() : void
+    {
+        $handler = $this->createMock(GetContentPathCollectionDelegate::class);
+
+        $getContentPathCollection = $this->createMock(GetContentPathCollection::class);
+
+        $getContentPathCollection->expects(self::once())
+            ->method('get')
+            ->with(
+                self::equalTo('testDirInput'),
+                self::equalTo($handler),
+                self::equalTo(['test', 'thing'])
+            );
+
+        $di = $this->createMock(ContainerInterface::class);
+
+        $di->expects(self::once())
+            ->method('get')
+            ->with(self::equalTo(GetContentPathCollection::class))
+            ->willReturn($getContentPathCollection);
+
+        /** @noinspection PhpParamsInspection */
+        $api = new ScribbleApi($di);
+
+        /** @noinspection PhpParamsInspection */
+        $api->getContentPathCollection('testDirInput', $handler, ['test', 'thing']);
     }
 }

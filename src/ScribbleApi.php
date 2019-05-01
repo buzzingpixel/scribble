@@ -9,6 +9,8 @@ use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFileDelegate
 use BuzzingPixel\Scribble\Services\GetContentFromFile\SplFileInfo;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPath;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPathDelegate;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\GetContentPathCollection;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\GetContentPathCollectionDelegate;
 use Psr\Container\ContainerInterface;
 
 class ScribbleApi implements ScribbleApiContract
@@ -40,6 +42,21 @@ class ScribbleApi implements ScribbleApiContract
         array $extensions = ['md']
     ) : void {
         $this->di->get(GetContentFromPath::class)->get(
+            $dir,
+            $handler,
+            $extensions
+        );
+    }
+
+    /**
+     * @param string[] $extensions
+     */
+    public function getContentPathCollection(
+        string $dir,
+        GetContentPathCollectionDelegate $handler,
+        array $extensions = ['md']
+    ) : void {
+        $this->di->get(GetContentPathCollection::class)->get(
             $dir,
             $handler,
             $extensions

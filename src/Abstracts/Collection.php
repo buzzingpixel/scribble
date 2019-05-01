@@ -53,6 +53,8 @@ abstract class Collection implements CollectionContract
 
             $this->count++;
         }
+
+        // TODO: if collection is empty throw error
     }
 
     /**

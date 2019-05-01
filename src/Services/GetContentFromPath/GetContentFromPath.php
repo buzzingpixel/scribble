@@ -48,7 +48,7 @@ class GetContentFromPath
     private function innerGet(
         string $dir,
         GetContentFromPathDelegate $handler,
-        array $extensions = ['md']
+        array $extensions
     ) : void {
         $finder = $this->symfonyFinderFactory->createFinder()
             ->files()
@@ -64,7 +64,7 @@ class GetContentFromPath
             return;
         }
 
-        $parsedFiles = [];
+        $collection = [];
 
         foreach ($finder as $file) {
             $content = $this->processFile($file);
@@ -73,11 +73,18 @@ class GetContentFromPath
                 continue;
             }
 
-            $parsedFiles[] = $content;
+            $collection[] = $content;
         }
 
+        // TODO: Implement and test this
+        // if (! $collection) {
+        //     $handler->noResults();
+        //
+        //     return;
+        // }
+
         $handler->contentRetrieved(
-            new ContentCollection($parsedFiles)
+            new ContentCollection($collection)
         );
     }
 

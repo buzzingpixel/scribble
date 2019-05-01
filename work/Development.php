@@ -11,6 +11,9 @@ use BuzzingPixel\Scribble\Services\GetContentFromFile\SplFileInfo;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\ContentCollection;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPath;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPathDelegate;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\ContentPathCollection;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\GetContentPathCollection;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\GetContentPathCollectionDelegate;
 use corbomite\di\Di;
 use Throwable;
 use function dd;
@@ -23,7 +26,35 @@ class Development
     public function __invoke() : void
     {
         // $this->getContentFromFile();
-        $this->getContentFromPath();
+        // $this->getContentFromPath();
+        $this->getContentPathCollection();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function getContentPathCollection() : void
+    {
+        $getContentPathCollection = Di::diContainer()->get(GetContentPathCollection::class);
+
+        $path = APP_DIR . '/work/content/TestContentCollection';
+
+        $getContentPathCollection->get($path, new class implements GetContentPathCollectionDelegate {
+            public function unableToParsePath() : void
+            {
+                dd(__METHOD__);
+            }
+
+            public function noResults() : void
+            {
+                dd(__METHOD__);
+            }
+
+            public function contentRetrieved(ContentPathCollection $collection) : void
+            {
+                dd($collection, __METHOD__);
+            }
+        });
     }
 
     /**

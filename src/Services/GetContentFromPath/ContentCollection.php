@@ -9,7 +9,7 @@ use BuzzingPixel\Scribble\Services\GetContentFromFile\Content;
 
 /**
  * @method ContentCollection subSet(int $limit, int $start = 0)
- * @method Content[] all()
+ * @method Content[] all() : array
  * @method Content|null first()
  * @method Content|null last()
  * @method Content|null current()

@@ -7,6 +7,7 @@ use BuzzingPixel\Scribble\ScribbleApi;
 use BuzzingPixel\Scribble\ScribbleApiContract;
 use BuzzingPixel\Scribble\Services\GetContentFromFile\GetContentFromFile;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\GetContentFromPath;
+use BuzzingPixel\Scribble\Services\GetContentPathCollection\GetContentPathCollection;
 use cebe\markdown\GithubMarkdown;
 use Hyn\Frontmatter\Frontmatters\JsonFrontmatter;
 use Hyn\Frontmatter\Parser as FontMatterParser;
@@ -25,6 +26,13 @@ return [
     GetContentFromPath::class => static function (ContainerInterface $di) {
         return new GetContentFromPath(
             $di->get(SymfonyFinderFactory::class),
+            $di->get(GetContentFromFile::class)
+        );
+    },
+    GetContentPathCollection::class => static function (ContainerInterface $di) {
+        return new GetContentPathCollection(
+            $di->get(SymfonyFinderFactory::class),
+            $di->get(GetContentFromPath::class),
             $di->get(GetContentFromFile::class)
         );
     },

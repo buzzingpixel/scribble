@@ -54,13 +54,17 @@ abstract class Collection implements CollectionContract
             $this->count++;
         }
 
-        // TODO: if collection is empty throw error
+        if (! $this->collection) {
+            throw new InvalidArgumentException(
+                'Input items must not be empty'
+            );
+        }
     }
 
     /**
      * Child class should use phpdoc for class to note method return
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function subSet(int $limit, int $start = 0)
     {
@@ -69,6 +73,10 @@ abstract class Collection implements CollectionContract
             $start,
             $limit
         );
+
+        if (! $contents) {
+            return null;
+        }
 
         return new static($contents);
     }

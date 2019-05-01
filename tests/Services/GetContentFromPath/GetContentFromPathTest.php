@@ -231,7 +231,7 @@ class GetContentFromPathTest extends TestCase
             ['json']
         );
 
-        self::assertCount(0, $handler->collection());
+        self::assertNull($handler->collection());
     }
 
     /**
@@ -306,17 +306,17 @@ class GetContentFromPathTest extends TestCase
 
         $subCollection = $collection->subSet(2);
 
+        $subCollectionNull = $collection->subSet(0);
+
         $first = $collection->first();
 
         $last = $collection->last();
 
-        $nullFirst = (new ContentCollection([]))->first();
-
-        $nullLast = (new ContentCollection([]))->last();
-
         self::assertCount(4, $collection);
 
         self::assertCount(2, $subCollection);
+
+        self::assertNull($subCollectionNull);
 
         self::assertEmpty($first->markdown());
 
@@ -338,8 +338,22 @@ class GetContentFromPathTest extends TestCase
 
         self::assertEquals('baz', $last->getMetaItem('bar'));
 
-        self::assertNull($nullFirst);
+        $exception = null;
 
-        self::assertNull($nullLast);
+        try {
+            new ContentCollection([]);
+        } catch (InvalidArgumentException $e) {
+            $exception = $e;
+        }
+
+        self::assertInstanceOf(
+            InvalidArgumentException::class,
+            $exception
+        );
+
+        self::assertEquals(
+            'Input items must not be empty',
+            $exception->getMessage()
+        );
     }
 }

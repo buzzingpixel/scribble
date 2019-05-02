@@ -35,10 +35,12 @@ if [[ -z "${cmd}" ]]; then
     printf "${Green}The following commands are available:\n${Yellow}";
     printf "  ./dev up\n";
     printf "  ./dev down\n";
-    printf "  ./dev phpunit [args]\n"
-    printf "  ./dev cli [args]\n"
-    printf "  ./dev composer [args]\n"
-    printf "  ./dev login [args]${Reset}\n"
+    printf "  ./dev test";
+    printf "  ./dev phpstan [args]\n";
+    printf "  ./dev phpunit [args]\n";
+    printf "  ./dev cli [args]\n";
+    printf "  ./dev composer [args]\n";
+    printf "  ./dev login [args]${Reset}\n";
 fi
 
 ## Up command
@@ -54,8 +56,14 @@ if [[ "${cmd}" = "down" ]]; then
     docker-compose -f docker-compose.yml -p scribble down
 fi
 
+## Run phpstan if requested
+if [[ "${cmd}" = "phpstan" ]] || [[ "${cmd}" = "test" ]]; then
+    valid=true;
+    docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpstan && /app/vendor/bin/phpstan analyse -l max src ${allArgsExceptFirst}"
+fi
+
 ## Run phpunit if requested
-if [[ "${cmd}" = "phpunit" ]]; then
+if [[ "${cmd}" = "phpunit" ]] || [[ "${cmd}" = "test" ]]; then
     valid=true;
     docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpunit && /app/vendor/bin/phpunit --configuration /app/phpunit.xml ${allArgsExceptFirst}"
 fi

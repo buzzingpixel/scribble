@@ -12,6 +12,8 @@ if "%cmd%" == "" (
     echo The following commands are available:
     echo   .\dev up
     echo   .\dev down
+    echo   .\dev test
+    echo   .\dev phpstan [args]
     echo   .\dev phpunit [args]
     echo   .\dev cli [args]
     echo   .\dev composer [args]
@@ -31,10 +33,23 @@ if "%cmd%" == "down" (
     docker-compose -f docker-compose.yml -p scribble down
 )
 
+:: Run test if requested
+if "%cmd%" == "test" (
+    set valid=true
+    call :phpstan
+    call :phpunit
+)
+
+:: Run phpstan if requested
+if "%cmd%" == "phpstan" (
+    set valid=true
+    call :phpstan
+)
+
 :: Run phpunit if requested
 if "%cmd%" == "phpunit" (
     set valid=true
-    docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpunit && /app/vendor/bin/phpunit --configuration /app/phpunit.xml %allArgsExceptFirst%"
+    call :phpunit
 )
 
 :: Run cli if requested
@@ -62,4 +77,14 @@ if not "%valid%" == "true" (
 )
 
 :: Exit with no error
+exit /b 0
+
+:: phpstan function
+:phpstan
+    docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpstan && /app/vendor/bin/phpstan analyse -l max src %allArgsExceptFirst%"
+exit /b 0
+
+:: phpunit function
+:phpunit
+    docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpunit && /app/vendor/bin/phpunit --configuration /app/phpunit.xml %allArgsExceptFirst%"
 exit /b 0

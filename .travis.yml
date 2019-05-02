@@ -1,8 +1,10 @@
 language: php
 
 php:
-  - 7.2
+  - "7.2"
 
-before_script: composer install
+before_script: composer install --no-suggest --no-progress
 
-script: vendor/bin/phpunit
+script:
+  - vendor/bin/phpunit
+  - vendor/bin/phpstan analyse -l max src --no-interaction --no-progress

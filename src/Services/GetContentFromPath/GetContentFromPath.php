@@ -76,12 +76,11 @@ class GetContentFromPath
             $collection[] = $content;
         }
 
-        // TODO: Implement and test this
-        // if (! $collection) {
-        //     $handler->noResults();
-        //
-        //     return;
-        // }
+        if (! $collection) {
+            $handler->noResults();
+
+            return;
+        }
 
         $handler->contentRetrieved(
             new ContentCollection($collection)

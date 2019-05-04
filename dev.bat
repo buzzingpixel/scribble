@@ -81,7 +81,7 @@ exit /b 0
 
 :: phpstan function
 :phpstan
-    docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpstan && /app/vendor/bin/phpstan analyse -l max src %allArgsExceptFirst%"
+    docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpstan && /app/vendor/bin/phpstan analyse src %allArgsExceptFirst%"
 exit /b 0
 
 :: phpunit function

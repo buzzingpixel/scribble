@@ -7,4 +7,4 @@ before_script: composer install --no-suggest --no-progress
 
 script:
   - vendor/bin/phpunit
-  - vendor/bin/phpstan analyse -l max src --no-interaction --no-progress
+  - vendor/bin/phpstan analyse src --no-interaction --no-progress

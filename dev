@@ -59,7 +59,7 @@ fi
 ## Run phpstan if requested
 if [[ "${cmd}" = "phpstan" ]] || [[ "${cmd}" = "test" ]]; then
     valid=true;
-    docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpstan && /app/vendor/bin/phpstan analyse -l max src ${allArgsExceptFirst}"
+    docker exec -it --user root --workdir /app php-scribble bash -c "chmod +x /app/vendor/bin/phpstan && /app/vendor/bin/phpstan analyse src ${allArgsExceptFirst}"
 fi
 
 ## Run phpunit if requested

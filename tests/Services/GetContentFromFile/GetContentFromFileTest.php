@@ -111,6 +111,11 @@ class GetContentFromFileTest extends TestCase
             [
                 'asdf' => 'thing',
                 'foo' => ['bar' => 'thing'],
+                'baseName' => 'TestContentFile.md',
+                'baseNameNoExtension' => 'TestContentFile',
+                'pathName' => '/app/tests/Services/GetContentFromFile/TestContentFile.md',
+                'path' => '/app/tests/Services/GetContentFromFile',
+                'fileExtension' => 'md',
             ],
             $content->meta()
         );

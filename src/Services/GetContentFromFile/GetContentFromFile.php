@@ -7,6 +7,7 @@ namespace BuzzingPixel\Scribble\Services\GetContentFromFile;
 use Hyn\Frontmatter\Parser as FontMatterParser;
 use Symfony\Component\Finder\SplFileInfo;
 use Throwable;
+use function array_merge;
 use function is_array;
 
 class GetContentFromFile
@@ -24,12 +25,21 @@ class GetContentFromFile
         try {
             $content = $this->frontMatterParser->parse($file->getContents());
 
-            $meta = $content['meta'];
+            $meta = array_merge(
+                is_array($content['meta']) ? $content['meta'] : [],
+                [
+                    'baseName' => $file->getBasename(),
+                    'baseNameNoExtension' => $file->getBasename('.' . $file->getExtension()),
+                    'fileExtension' => $file->getExtension(),
+                    'pathName' => $file->getPathname(),
+                    'path' => $file->getPath(),
+                ]
+            );
 
             $handler->contentRetrieved(new Content(
                 $content['markdown'] ?? '',
                 $content['html'] ?? '',
-                is_array($meta) ? $meta : []
+                $meta
             ));
         } catch (Throwable $e) {
             $handler->unableToParseFile();

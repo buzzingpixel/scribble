@@ -356,4 +356,253 @@ class GetContentFromPathTest extends TestCase
             $exception->getMessage()
         );
     }
+
+    /**
+     * @throws Throwable
+     */
+    public function testFilterMetaEqualTo() : void
+    {
+        $service = Di::diContainer()->get(GetContentFromPath::class);
+
+        $handler = $this->getDelegate();
+
+        $service->get(
+            TESTS_BASE_PATH . '/Services/GetContentFromPath/ContentDirectory',
+            $handler,
+            ['md', 'json']
+        );
+
+        /** @var ContentCollection $collection */
+        $collection = $handler->collection();
+
+        $md = $collection->filterMetaEqualTo('fileExtension', 'md');
+
+        $json = $collection->filterMetaEqualTo('fileExtension', 'json');
+
+        $noResults = $collection->filterMetaEqualTo(
+            'path',
+            'foo'
+        );
+
+        self::assertNull($noResults);
+
+        self::assertEquals(3, $md->count());
+
+        self::assertEquals(1, $json->count());
+
+        self::assertEquals(4, $collection->count());
+
+        $mdLoopCount = 0;
+
+        foreach ($md->all() as $content) {
+            $mdLoopCount++;
+
+            self::assertEquals(
+                'md',
+                $content->getMetaItem('fileExtension')
+            );
+        }
+
+        self::assertEquals(3, $mdLoopCount);
+
+        $jsonLoopCount = 0;
+
+        foreach ($json->all() as $content) {
+            $jsonLoopCount++;
+
+            self::assertEquals(
+                'json',
+                $content->getMetaItem('fileExtension')
+            );
+        }
+
+        self::assertEquals(1, $jsonLoopCount);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testFilterMetaNotEqualTo() : void
+    {
+        $service = Di::diContainer()->get(GetContentFromPath::class);
+
+        $handler = $this->getDelegate();
+
+        $service->get(
+            TESTS_BASE_PATH . '/Services/GetContentFromPath/ContentDirectory',
+            $handler,
+            ['md', 'json']
+        );
+
+        /** @var ContentCollection $collection */
+        $collection = $handler->collection();
+
+        $md = $collection->filterMetaNotEqualTo('fileExtension', 'json');
+
+        $json = $collection->filterMetaNotEqualTo('fileExtension', 'md');
+
+        $noResults = $collection->filterMetaNotEqualTo(
+            'path',
+            TESTS_BASE_PATH . '/Services/GetContentFromPath/ContentDirectory'
+        );
+
+        self::assertNull($noResults);
+
+        self::assertEquals(3, $md->count());
+
+        self::assertEquals(1, $json->count());
+
+        self::assertEquals(4, $collection->count());
+
+        $mdLoopCount = 0;
+
+        foreach ($md->all() as $content) {
+            $mdLoopCount++;
+
+            self::assertEquals(
+                'md',
+                $content->getMetaItem('fileExtension')
+            );
+        }
+
+        self::assertEquals(3, $mdLoopCount);
+
+        $jsonLoopCount = 0;
+
+        foreach ($json->all() as $content) {
+            $jsonLoopCount++;
+
+            self::assertEquals(
+                'json',
+                $content->getMetaItem('fileExtension')
+            );
+        }
+
+        self::assertEquals(1, $jsonLoopCount);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testFilterMetaIn() : void
+    {
+        $service = Di::diContainer()->get(GetContentFromPath::class);
+
+        $handler = $this->getDelegate();
+
+        $service->get(
+            TESTS_BASE_PATH . '/Services/GetContentFromPath/ContentDirectory',
+            $handler,
+            ['md', 'json']
+        );
+
+        /** @var ContentCollection $collection */
+        $collection = $handler->collection();
+
+        $md = $collection->filterMetaIn('fileExtension', ['md']);
+
+        $json = $collection->filterMetaIn('fileExtension', ['json']);
+
+        $noResults = $collection->filterMetaIn('fileExtension', ['foo']);
+
+        $noResults2 = $collection->filterMetaIn('foo-not-exists', ['bar']);
+
+        self::assertNull($noResults);
+
+        self::assertNull($noResults2);
+
+        self::assertEquals(3, $md->count());
+
+        self::assertEquals(1, $json->count());
+
+        self::assertEquals(4, $collection->count());
+
+        $mdLoopCount = 0;
+
+        foreach ($md->all() as $content) {
+            $mdLoopCount++;
+
+            self::assertEquals(
+                'md',
+                $content->getMetaItem('fileExtension')
+            );
+        }
+
+        self::assertEquals(3, $mdLoopCount);
+
+        $jsonLoopCount = 0;
+
+        foreach ($json->all() as $content) {
+            $jsonLoopCount++;
+
+            self::assertEquals(
+                'json',
+                $content->getMetaItem('fileExtension')
+            );
+        }
+
+        self::assertEquals(1, $jsonLoopCount);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testFilterMetaNotIn() : void
+    {
+        $service = Di::diContainer()->get(GetContentFromPath::class);
+
+        $handler = $this->getDelegate();
+
+        $service->get(
+            TESTS_BASE_PATH . '/Services/GetContentFromPath/ContentDirectory',
+            $handler,
+            ['md', 'json']
+        );
+
+        /** @var ContentCollection $collection */
+        $collection = $handler->collection();
+
+        $md = $collection->filterMetaNotIn('fileExtension', ['json']);
+
+        $json = $collection->filterMetaNotIn('fileExtension', ['md']);
+
+        $noResults = $collection->filterMetaNotIn('fileExtension', [
+            'md',
+            'json',
+        ]);
+
+        self::assertNull($noResults);
+
+        self::assertEquals(3, $md->count());
+
+        self::assertEquals(1, $json->count());
+
+        self::assertEquals(4, $collection->count());
+
+        $mdLoopCount = 0;
+
+        foreach ($md->all() as $content) {
+            $mdLoopCount++;
+
+            self::assertEquals(
+                'md',
+                $content->getMetaItem('fileExtension')
+            );
+        }
+
+        self::assertEquals(3, $mdLoopCount);
+
+        $jsonLoopCount = 0;
+
+        foreach ($json->all() as $content) {
+            $jsonLoopCount++;
+
+            self::assertEquals(
+                'json',
+                $content->getMetaItem('fileExtension')
+            );
+        }
+
+        self::assertEquals(1, $jsonLoopCount);
+    }
 }

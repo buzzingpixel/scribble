@@ -26,8 +26,8 @@ class Development
     public function __invoke() : void
     {
         // $this->getContentFromFile();
-        // $this->getContentFromPath();
-        $this->getContentPathCollection();
+        $this->getContentFromPath();
+        // $this->getContentPathCollection();
     }
 
     /**
@@ -79,7 +79,15 @@ class Development
 
             public function contentRetrieved(ContentCollection $collection) : void
             {
-                dd($collection, __METHOD__);
+                dd(
+                    $collection->filterMetaNotIn(
+                        'baseNameNoExtension',
+                        [
+                            'Test2',
+                            'Test4',
+                        ]
+                    )
+                );
             }
         });
     }

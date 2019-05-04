@@ -8,7 +8,7 @@ use BuzzingPixel\Scribble\Abstracts\Collection;
 use BuzzingPixel\Scribble\Services\GetContentFromPath\ContentCollection;
 
 /**
- * @method ContentPathCollection subSet(int $limit, int $start = 0)
+ * @method ContentPathCollection|null subSet(int $limit, int $start = 0)
  * @method ContentCollection[] all() : array
  * @method ContentCollection|null first()
  * @method ContentCollection|null last()

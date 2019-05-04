@@ -13,7 +13,6 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\Dumper\ServerDumper;
 use Symfony\Component\VarDumper\VarDumper;
 
-
 require __DIR__ . '/vendor/autoload.php';
 
 $cloner = new VarCloner();

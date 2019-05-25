@@ -24,6 +24,14 @@ interface CollectionContract extends Countable, Iterator
     public function subSet(int $limit, int $start = 0);
 
     /**
+     * Returns a new collection with the sort order reversed
+     * Implementing class should use phpdoc for class to note method return
+     *
+     * @return mixed
+     */
+    public function reverseSortOrder();
+
+    /**
      * Returns all items in collection
      *
      * @return mixed[]
@@ -45,4 +53,12 @@ interface CollectionContract extends Countable, Iterator
      * @return mixed|null
      */
     public function last();
+
+    /**
+     * Returns the item at the specified index or null if not set
+     * Implementing class should use phpdoc for class to note method return
+     *
+     * @return mixed null
+     */
+    public function getItemAtIndex(int $index);
 }

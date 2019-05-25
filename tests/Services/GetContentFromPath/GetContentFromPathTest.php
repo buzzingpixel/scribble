@@ -360,6 +360,71 @@ class GetContentFromPathTest extends TestCase
     /**
      * @throws Throwable
      */
+    public function testReverseSortOrder() : void
+    {
+        $service = Di::diContainer()->get(GetContentFromPath::class);
+
+        $handler = $this->getDelegate();
+
+        $service->get(
+            TESTS_BASE_PATH . '/Services/GetContentFromPath/ContentDirectory',
+            $handler,
+            ['md', 'json']
+        );
+
+        /** @var ContentCollection $collection */
+        $collection = $handler->collection();
+
+        $reversed = $collection->reverseSortOrder();
+
+        self::assertSame(
+            'Content1.json',
+            $collection->getItemAtIndex(0)->getMetaItem('baseName')
+        );
+
+        self::assertSame(
+            'Content4.md',
+            $reversed->getItemAtIndex(0)->getMetaItem('baseName')
+        );
+
+        self::assertSame(
+            'Content2.md',
+            $collection->getItemAtIndex(1)->getMetaItem('baseName')
+        );
+
+        self::assertSame(
+            'Content3.md',
+            $reversed->getItemAtIndex(1)->getMetaItem('baseName')
+        );
+
+        self::assertSame(
+            'Content3.md',
+            $collection->getItemAtIndex(2)->getMetaItem('baseName')
+        );
+
+        self::assertSame(
+            'Content2.md',
+            $reversed->getItemAtIndex(2)->getMetaItem('baseName')
+        );
+
+        self::assertSame(
+            'Content4.md',
+            $collection->getItemAtIndex(3)->getMetaItem('baseName')
+        );
+
+        self::assertSame(
+            'Content1.json',
+            $reversed->getItemAtIndex(3)->getMetaItem('baseName')
+        );
+
+        self::assertNull($collection->getItemAtIndex(4));
+
+        self::assertNull($reversed->getItemAtIndex(4));
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function testFilterMetaEqualTo() : void
     {
         $service = Di::diContainer()->get(GetContentFromPath::class);

@@ -6,6 +6,7 @@ namespace BuzzingPixel\Scribble\Abstracts;
 
 use InvalidArgumentException;
 use LogicException;
+use function array_reverse;
 use function array_slice;
 
 abstract class Collection implements CollectionContract
@@ -84,6 +85,16 @@ abstract class Collection implements CollectionContract
     /**
      * Child class should use phpdoc for class to note method return
      *
+     * @return mixed
+     */
+    public function reverseSortOrder()
+    {
+        return new static(array_reverse($this->collection));
+    }
+
+    /**
+     * Child class should use phpdoc for class to note method return
+     *
      * @return mixed[]
      */
     public function all() : array
@@ -109,6 +120,16 @@ abstract class Collection implements CollectionContract
     public function last()
     {
         return $this->collection[$this->count - 1] ?? null;
+    }
+
+    /**
+     * Child class should use phpdoc for class to note method return
+     *
+     * @return mixed|null
+     */
+    public function getItemAtIndex(int $index)
+    {
+        return $this->collection[$index] ?? null;
     }
 
     /**

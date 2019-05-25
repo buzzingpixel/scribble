@@ -10,6 +10,7 @@ use function in_array;
 
 /**
  * @method ContentCollection|null subSet(int $limit, int $start = 0)
+ * @method ContentCollection reverseSortOrder()
  * @method Content[] all() : array
  * @method Content|null first()
  * @method Content|null last()

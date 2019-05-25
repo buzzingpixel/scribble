@@ -9,7 +9,8 @@ use BuzzingPixel\Scribble\Services\GetContentFromPath\ContentCollection;
 
 /**
  * @method ContentPathCollection|null subSet(int $limit, int $start = 0)
- * @method ContentCollection[] all() : array
+ * @method ContentPathCollection reverseSortOrder()
+ * @method ContentCollection[] all()
  * @method ContentCollection|null first()
  * @method ContentCollection|null last()
  * @method ContentCollection|null current()()

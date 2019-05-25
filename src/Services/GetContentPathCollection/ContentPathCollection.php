@@ -13,6 +13,7 @@ use BuzzingPixel\Scribble\Services\GetContentFromPath\ContentCollection;
  * @method ContentCollection[] all()
  * @method ContentCollection|null first()
  * @method ContentCollection|null last()
+ * @method ContentCollection|null getItemAtIndex(int $index)
  * @method ContentCollection|null current()()
  */
 class ContentPathCollection extends Collection

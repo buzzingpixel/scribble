@@ -14,6 +14,7 @@ use function in_array;
  * @method Content[] all() : array
  * @method Content|null first()
  * @method Content|null last()
+ * @method Content|null getItemAtIndex(int $index)
  * @method Content|null current()
  */
 class ContentCollection extends Collection
